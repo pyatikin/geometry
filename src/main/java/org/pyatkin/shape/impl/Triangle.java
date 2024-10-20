@@ -8,6 +8,15 @@ public class Triangle extends Polygon {
         super(p1, p2, p3);
     }
 
+    @Override
+    public double perimeter() {
+        Point[] vertices = vertices();
+        double a = Math.hypot(vertices[1].x() - vertices[0].x(), vertices[1].y() - vertices[0].y());
+        double b = Math.hypot(vertices[2].x() - vertices[1].x(), vertices[2].y() - vertices[1].y());
+        double c = Math.hypot(vertices[0].x() - vertices[2].x(), vertices[0].y() - vertices[2].y());
+        return a + b + c;
+    }
+
     public Circle circumscribedCircle() {
         Point p1 = vertices()[0];
         Point p2 = vertices()[1];

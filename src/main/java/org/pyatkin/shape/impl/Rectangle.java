@@ -32,6 +32,14 @@ public class Rectangle extends Polygon {
         return new Diagonals(diagonal1, diagonal2);
     }
 
+    @Override
+    public double perimeter() {
+        Point[] vertices = vertices();
+        double width = Math.hypot(vertices[1].x() - vertices[0].x(), vertices[1].y() - vertices[0].y());
+        double height = Math.hypot(vertices[2].x() - vertices[1].x(), vertices[2].y() - vertices[1].y());
+        return 2 * (width + height);
+    }
+
     private static Point[] calculateVertices(Point p1, Point p2, double ratio) {
         double dx = p2.x() - p1.x();
         double dy = p2.y() - p1.y();

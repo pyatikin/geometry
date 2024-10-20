@@ -10,4 +10,10 @@ public class Circle extends Ellipse {
     public double radius() {
         return getSumDistance();
     }
+
+    @Override
+    public double perimeter() {
+        return Math.PI * 2 * radius();
+    }
+
 }
