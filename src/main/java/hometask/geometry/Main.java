@@ -1,6 +1,6 @@
-package org.pyatkin;
+package hometask.geometry;
 
-import org.pyatkin.base.Point;
+import hometask.geometry.base.Point;
 
 public class Main {
     public static void main(String[] args) {

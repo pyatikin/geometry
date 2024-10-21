@@ -1,23 +1,16 @@
-package org.pyatkin.base;
+package hometask.geometry.base;
 
 public class Line {
-    // kx + c = y
-    private double k;
-    private double c;
+    private final double k;
+    private final double c;
 
-
-    //c = y1 - kx1
-    //kx2 + y1 -kx1 = y2
-    //k = (y2-y1)/(x2-x1)
     public Line(Point p1, Point p2) {
         if (p1.x() == p2.x()) {
             this.k = Double.POSITIVE_INFINITY;
             this.c = p1.x();
-        } else if (p1.y() == p2.y()) {
-            this.k = 0;
-            this.c = p2.y();
         } else {
             this.k = (p2.y() - p1.y()) / (p2.x() - p1.x());
+            this.c = p1.y() - this.k * p1.x();
         }
     }
 
@@ -26,22 +19,26 @@ public class Line {
         this.c = c;
     }
 
-    //c=y-kx
-    public Line(Point p, double c) {
-        this.c = c;
-        this.k = p.y() - c * p.x();
+    public Line(Point p, double k) {
+        this.k = k;
+        this.c = p.y() - k * p.x();
     }
 
-    //k1*x+c1=k2*x+c2
-    //k1x-k2x=c2-c1
-    //x=(c2-c1)/(k1-k2)
-    public Point intersect(Line first, Line second) {
-        if (first.k - second.k == 0){
+    public static Point intersect(Line first, Line second) {
+        if (first.k == second.k) {
             return Point.EMPTY;
         }
-        var x = (second.c - first.c)/(first.k - second.k);
-        var y = first.k * x + first.c;
+        double x = (second.c - first.c) / (first.k - second.k);
+        double y = first.k * x + first.c;
         return new Point(x, y);
+    }
+
+    public double k() {
+        return k;
+    }
+
+    public double c() {
+        return c;
     }
 
     @Override
@@ -50,5 +47,10 @@ public class Line {
         if (obj == null || getClass() != obj.getClass()) return false;
         Line line = (Line) obj;
         return Double.compare(line.k, k) == 0 && Double.compare(line.c, c) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Double.hashCode(k) * 31 + Double.hashCode(c);
     }
 }
