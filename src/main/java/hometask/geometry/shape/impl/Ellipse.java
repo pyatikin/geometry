@@ -4,6 +4,10 @@ import hometask.geometry.base.Line;
 import hometask.geometry.base.Point;
 import hometask.geometry.shape.Shape;
 
+/**
+ * Класс {@code Ellipse} представляет собой эллипс, определяемый двумя фокусами и суммой расстояний
+ * от любой точки на эллипсе до этих фокусов.
+ */
 public class Ellipse implements Shape {
     private final Point focusLeft;
     private final Point focusRight;
@@ -16,15 +20,31 @@ public class Ellipse implements Shape {
         this.focusRight = focusRight;
         this.sumDistance = sumDistance;
         this.semiMajorAxis = sumDistance / 2;
+
         double distance = Math.hypot(focusRight.x() - focusLeft.x(), focusRight.y() - focusLeft.y());
         double c = distance / 2;
+
+        if (sumDistance < distance) {
+            throw new IllegalArgumentException("Сумма расстояний должна быть больше расстояния между фокусами.");
+        }
+
         this.semiMinorAxis = Math.sqrt(semiMajorAxis * semiMajorAxis - c * c);
     }
 
+    /**
+     * Возвращает фокусы эллипса.
+     *
+     * @return Объект {@code Focuses}, содержащий левый и правый фокусы эллипса.
+     */
     public Focuses focuses() {
         return new Focuses(focusLeft, focusRight);
     }
 
+    /**
+     * Вычисляет и возвращает директрисы эллипса.
+     *
+     * @return Объект {@code Directrices}, содержащий две директрисы эллипса.
+     */
     public Directrices directrices() {
         double a = semiMajorAxis;
         double distance = Math.hypot(focusRight.x() - focusLeft.x(), focusRight.y() - focusLeft.y());
@@ -44,11 +64,22 @@ public class Ellipse implements Shape {
         return new Directrices(directrix1, directrix2);
     }
 
+    /**
+     * Вычисляет и возвращает эксцентриситет эллипса.
+     *
+     * @return Эксцентриситет эллипса, определяемый как отношение расстояния от центра до фокуса
+     *         к полуосевой большой.
+     */
     public double eccentricity() {
         double distance = Math.hypot(focusRight.x() - focusLeft.x(), focusRight.y() - focusLeft.y()) / 2;
         return distance / semiMajorAxis;
     }
 
+    /**
+     * Возвращает центр эллипса.
+     *
+     * @return Объект {@code Point}, представляющий центр эллипса.
+     */
     public Point center() {
         double centerX = (focusLeft.x() + focusRight.x()) / 2;
         double centerY = (focusLeft.y() + focusRight.y()) / 2;

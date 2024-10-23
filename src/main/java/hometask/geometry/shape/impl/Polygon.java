@@ -16,12 +16,13 @@ public class Polygon implements Shape {
             throw new IllegalArgumentException("Polygon must have at least 3 vertices.");
         }
 
-        // Сортируем точки и приводим их к требуемому виду (как описано ранее)
+        // Сортируем точки и приводим их к требуемому виду
         Point[] sortedVertices = Arrays.copyOf(vertices, vertices.length);
         int minIndex = findLeftmostLowestPoint(sortedVertices);
         sortedVertices = rotateVertices(sortedVertices, minIndex);
 
-        if (isClockwise(sortedVertices)) {
+        // Проверяем ориентацию многоугольника
+        if (orientation(sortedVertices) == -1) { // Если по часовой стрелке
             sortedVertices = reverseVertices(sortedVertices);
         }
 
@@ -65,11 +66,21 @@ public class Polygon implements Shape {
         return rotated;
     }
 
-    // Проверка, нужно ли менять порядок точек (по часовой или против часовой)
-    private boolean isClockwise(Point[] points) {
-        Point p2 = points[1];
-        Point pLast = points[points.length - 1];
-        return pLast.y() > p2.y();
+    // Метод для определения ориентации многоугольника
+    public int orientation(Point[] points) {
+        double sum = 0;
+        for (int i = 0; i < points.length; i++) {
+            Point p1 = points[i];
+            Point p2 = points[(i + 1) % points.length];
+            sum += (p2.x() - p1.x()) * (p2.y() + p1.y());
+        }
+        if (sum > 0) {
+            return 1; // Против часовой стрелки
+        } else if (sum < 0) {
+            return -1; // По часовой стрелке
+        } else {
+            return 0; // Коллинеарные (вырожденный многоугольник)
+        }
     }
 
     // Разворот массива вершин
