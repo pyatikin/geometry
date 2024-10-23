@@ -45,8 +45,8 @@ public class Ellipse implements Shape {
     }
 
     public double eccentricity() {
-        double distance = Math.hypot(focusRight.x() - focusLeft.x(), focusRight.y() - focusLeft.y());
-        return distance / (2 * semiMajorAxis);
+        double distance = Math.hypot(focusRight.x() - focusLeft.x(), focusRight.y() - focusLeft.y()) / 2;
+        return distance / semiMajorAxis;
     }
 
     public Point center() {
@@ -62,10 +62,12 @@ public class Ellipse implements Shape {
         return Math.PI * (3 * (a + b) - Math.sqrt((3 * a + b) * (a + 3 * b)));
     }
 
+    @Override
     public double area() {
         return Math.PI * semiMajorAxis * semiMinorAxis; // Площадь эллипса
     }
 
+    @Override
     public boolean equals(Shape another) {
         if (this == another) return true;
         if (!(another instanceof Ellipse)) return false;
@@ -75,18 +77,21 @@ public class Ellipse implements Shape {
                 Double.compare(sumDistance, otherEllipse.sumDistance) == 0;
     }
 
+    @Override
     public boolean isCongruentTo(Shape another) {
         if (!(another instanceof Ellipse)) return false;
         Ellipse other = (Ellipse) another;
         return semiMajorAxis == other.semiMajorAxis && semiMinorAxis == other.semiMinorAxis;
     }
 
+    @Override
     public boolean isSimilarTo(Shape another) {
         if (!(another instanceof Ellipse)) return false;
         Ellipse other = (Ellipse) another;
         return (semiMajorAxis / semiMinorAxis) == (other.semiMajorAxis / other.semiMinorAxis);
     }
 
+    @Override
     public boolean containsPoint(Point point) {
         double distanceLeft = Math.hypot(point.x() - focusLeft.x(), point.y() - focusLeft.y());
         double distanceRight = Math.hypot(point.x() - focusRight.x(), point.y() - focusRight.y());

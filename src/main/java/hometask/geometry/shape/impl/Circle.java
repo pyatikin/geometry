@@ -1,7 +1,6 @@
 package hometask.geometry.shape.impl;
 
 import hometask.geometry.base.Point;
-import hometask.geometry.shape.Shape;
 
 public class Circle extends Ellipse {
     // Конструктор принимает центр и радиус

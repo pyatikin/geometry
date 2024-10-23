@@ -67,7 +67,6 @@ public class Polygon implements Shape {
 
     // Проверка, нужно ли менять порядок точек (по часовой или против часовой)
     private boolean isClockwise(Point[] points) {
-        Point p1 = points[0];
         Point p2 = points[1];
         Point pLast = points[points.length - 1];
         return pLast.y() > p2.y();
